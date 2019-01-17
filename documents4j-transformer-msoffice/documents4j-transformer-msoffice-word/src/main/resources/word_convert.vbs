@@ -2,6 +2,7 @@
 Const WdDoNotSaveChanges = 0
 Const WdExportFormatPDF = 17
 Const MagicFormatPDFA = 999
+Const MagicFormatPDF = 22
 Const MagicFormatFilteredHTML = 10
 Const msoEncodingUTF8 = 65001
 
@@ -9,7 +10,7 @@ Dim arguments
 Set arguments = WScript.Arguments
 
 ' Transforms a file using MS Word into the given format.
-Function ConvertFile( inputFile, outputFile, formatEnumeration )
+Function ConvertFile( inputFile, outputFile, formatEnumeration, inputFormatEnumeration )
 
   Dim fileSystemObject
   Dim wordApplication
@@ -33,11 +34,24 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration )
     ' Attempt to open the source document.
     On Error Resume Next
 
+    if inputFormatEnumeration = WdExportFormatPDF Then
+    Set wordDocument = wordApplication.Documents.Open(inputFile, _
+                                                      False, _
+                                                      True, _
+                                                      False, _
+                                                      , _
+                                                      , _
+                                                      , _
+                                                      , _
+                                                      , _
+                                                      MagicFormatPDF)
+    Else
     ' Open: See https://msdn.microsoft.com/en-us/library/office/ff835182.aspx
     Set wordDocument = wordApplication.Documents.Open(inputFile, _
                                                       False, _
                                                       True, _
                                                       False)
+    End If
 
     If Err <> 0 Then
         WScript.Quit -2
@@ -80,4 +94,4 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration )
 End Function
 
 ' Execute the script.
-Call ConvertFile( WScript.Arguments.Unnamed.Item(0), WScript.Arguments.Unnamed.Item(1), CInt(WScript.Arguments.Unnamed.Item(2)) )
+Call ConvertFile( WScript.Arguments.Unnamed.Item(0), WScript.Arguments.Unnamed.Item(1), CInt(WScript.Arguments.Unnamed.Item(2)), CInt(WScript.Arguments.Unnamed.Item(3)) )

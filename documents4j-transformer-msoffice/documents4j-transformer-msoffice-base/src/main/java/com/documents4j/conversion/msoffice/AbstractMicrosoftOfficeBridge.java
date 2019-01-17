@@ -63,13 +63,15 @@ public abstract class AbstractMicrosoftOfficeBridge extends AbstractExternalConv
         getLogger().info("Requested conversion from {} ({}) to {} ({})", source, sourceType, target, targetType);
         try {
             MicrosoftOfficeFormat microsoftOfficeFormat = formatOf(targetType);
+            MicrosoftOfficeFormat inputFormat = formatOf(sourceType);
             // Always call destroyOnExit before adding a listener: https://github.com/zeroturnaround/zt-exec/issues/14
             return makePresetProcessExecutor()
                     .command("cmd", "/S", "/C",
                             doubleQuote(conversionScript.getAbsolutePath(),
                                     source.getAbsolutePath(),
                                     target.getAbsolutePath(),
-                                    microsoftOfficeFormat.getValue()))
+                                    microsoftOfficeFormat.getValue(),
+                                    inputFormat.getValue()))
                     .destroyOnExit()
                     .addListener(targetNameCorrector(target, microsoftOfficeFormat.getFileExtension()))
                     .start();
