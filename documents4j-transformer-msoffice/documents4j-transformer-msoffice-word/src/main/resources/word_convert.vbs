@@ -2,7 +2,7 @@
 Const WdDoNotSaveChanges = 0
 Const WdExportFormatPDF = 17
 Const MagicFormatPDFA = 999
-Const MagicFormatPDF = 22
+Const MagicFormatPDF = 26
 Const MagicFormatFilteredHTML = 10
 Const msoEncodingUTF8 = 65001
 
@@ -34,7 +34,7 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration, inputFormatEnume
     ' Attempt to open the source document.
     On Error Resume Next
 
-    if inputFormatEnumeration = WdExportFormatPDF Then
+    If inputFormatEnumeration = WdExportFormatPDF Then
     Set wordDocument = wordApplication.Documents.Open(inputFile, _
                                                       False, _
                                                       True, _
@@ -54,6 +54,7 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration, inputFormatEnume
     End If
 
     If Err <> 0 Then
+        MsgBox Err.Description
         WScript.Quit -2
     End If
     On Error GoTo 0
