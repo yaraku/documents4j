@@ -33,7 +33,7 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration, inputFormatEnume
 
     ' Attempt to open the source document.
     On Error Resume Next
-
+    ' Open: See https://msdn.microsoft.com/en-us/library/office/ff835182.aspx
     If inputFormatEnumeration = WdExportFormatPDF Then
     Set wordDocument = wordApplication.Documents.Open(inputFile, _
                                                       False, _
@@ -46,7 +46,6 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration, inputFormatEnume
                                                       , _
                                                       MagicFormatPDF)
     Else
-    ' Open: See https://msdn.microsoft.com/en-us/library/office/ff835182.aspx
     Set wordDocument = wordApplication.Documents.Open(inputFile, _
                                                       False, _
                                                       True, _
