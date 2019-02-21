@@ -53,7 +53,6 @@ Function ConvertFile( inputFile, outputFile, formatEnumeration, inputFormatEnume
     End If
 
     If Err <> 0 Then
-        MsgBox Err.Description
         WScript.Quit -2
     End If
     On Error GoTo 0
