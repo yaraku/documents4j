@@ -50,6 +50,8 @@ public abstract class ConverterAdapter implements IConverter {
     }
 
     private static void deleteOrLog(File file) {
+        LOGGER.warn("Will delete base temporary folder: {}", file);
+
         if (!file.delete()) {
             LOGGER.warn("Could not delete temporary folder: {}", file);
         }
@@ -95,11 +97,13 @@ public abstract class ConverterAdapter implements IConverter {
 
     @Override
     public void shutDown() {
+        LOGGER.info("Will shut down now");
         cleanUp();
     }
 
     @Override
     public void kill() {
+        LOGGER.info("Will kill the server now");
         cleanUp();
     }
 
